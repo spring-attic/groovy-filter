@@ -1,7 +1,7 @@
 //tag::ref-doc[]
 = Groovy Filter Processor
 
-A Processor module that retains or discards messages according to a predicate, expressed as a Groovy script.
+A Processor application that retains or discards messages according to a predicate, expressed as a Groovy script.
 
 == Options
 

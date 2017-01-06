@@ -16,26 +16,27 @@
 
 package org.springframework.cloud.stream.app.groovy.filter.processor;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.test.IntegrationTest;
-import org.springframework.boot.test.SpringApplicationConfiguration;
-import org.springframework.boot.test.WebIntegrationTest;
-import org.springframework.cloud.stream.annotation.Bindings;
-import org.springframework.cloud.stream.messaging.Processor;
-import org.springframework.cloud.stream.test.binder.MessageCollector;
-import org.springframework.messaging.Message;
-import org.springframework.messaging.support.GenericMessage;
-import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.junit.Assert.assertThat;
 import static org.springframework.cloud.stream.test.matcher.MessageQueueMatcher.receivesPayloadThat;
+
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.SpringBootConfiguration;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.cloud.stream.messaging.Processor;
+import org.springframework.cloud.stream.test.binder.MessageCollector;
+import org.springframework.context.annotation.Import;
+import org.springframework.messaging.Message;
+import org.springframework.messaging.support.GenericMessage;
+import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.context.TestPropertySource;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 /**
  * Integration Tests for GroovyFilterProcessor.
@@ -43,22 +44,22 @@ import static org.springframework.cloud.stream.test.matcher.MessageQueueMatcher.
  * @author Eric Bottard
  * @author Marius Bogoevici
  * @author Gary Russell
+ * @author Artem Bilan
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(
-		classes = GroovyFilterProcessorApplicationIntegrationTests.GroovyFilterProcessorApplication.class)
-@WebIntegrationTest(randomPort = true)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
 @DirtiesContext
 public abstract class GroovyFilterProcessorApplicationIntegrationTests {
 
 	@Autowired
-	@Bindings(GroovyFilterProcessorConfiguration.class)
 	protected Processor channels;
 
 	@Autowired
 	protected MessageCollector collector;
 
-	@IntegrationTest({"groovy-filter.script=script.groovy", "groovy-filter.variables=threshold=5"})
+	@TestPropertySource(properties = {
+			"groovy-filter.script=script.groovy",
+			"groovy-filter.variables=threshold=5" })
 	public static class UsingScriptIntegrationTests extends GroovyFilterProcessorApplicationIntegrationTests {
 
 		@Test
@@ -71,7 +72,10 @@ public abstract class GroovyFilterProcessorApplicationIntegrationTests {
 		}
 	}
 
-	@SpringBootApplication
+	// Avoid @SpringBootApplication with its @ComponentScan
+	@SpringBootConfiguration
+	@EnableAutoConfiguration
+	@Import(GroovyFilterProcessorConfiguration.class)
 	public static class GroovyFilterProcessorApplication {
 
 	}
