@@ -3,6 +3,26 @@
 
 A Processor application that retains or discards messages according to a predicate, expressed as a Groovy script.
 
+== Input
+
+=== Headers
+
+N/A
+
+=== Payload
+
+* Any
+
+== Output
+
+=== Headers
+
+N/A
+
+=== Payload
+
+* Any
+
 == Options
 
 The **$$groovy-filter$$** $$processor$$ has the following options:
@@ -14,8 +34,20 @@ $$groovy-filter.variables-location$$:: $$The location of a properties file conta
 //end::configuration-properties[]
 
 //end::ref-doc[]
-== Building with Maven
+== Build
 
 ```
-$> mvn package
+$ ./mvnw clean install -PgenerateApps
+$ cd apps
+```
+You can find the corresponding binder based projects here.
+You can then cd into one one of the folders and build it:
+```
+$ ./mvnw clean package
+```
+
+== Examples
+
+```
+java -jar groovy-filter-processor.jar --script=script.groovy
 ```
