@@ -33,7 +33,6 @@ $$groovy-filter.variables$$:: $$Variable bindings as a new line delimited string
 $$groovy-filter.variables-location$$:: $$The location of a properties file containing custom script variable bindings.$$ *($$Resource$$, default: `$$<none>$$`)*
 //end::configuration-properties[]
 
-//end::ref-doc[]
 == Build
 
 ```
@@ -51,3 +50,5 @@ $ ./mvnw clean package
 ```
 java -jar groovy-filter-processor.jar --script=script.groovy
 ```
+
+//end::ref-doc[]
