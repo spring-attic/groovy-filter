@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.springframework.cloud.stream.app</groupId>
 	<artifactId>groovy-filter-app-dependencies</artifactId>
-	<version>1.3.0.BUILD-SNAPSHOT</version>
+	<version>1.3.0.M1</version>
 	<packaging>pom</packaging>
 	<name>groovy-filter-app-dependencies</name>
 	<description>Spring Cloud Stream Groovy Filter App Dependencies</description>
@@ -21,7 +21,7 @@
 			<dependency>
 				<groupId>org.springframework.cloud.stream.app</groupId>
 				<artifactId>spring-cloud-starter-stream-processor-groovy-filter</artifactId>
-				<version>1.3.0.BUILD-SNAPSHOT</version>
+				<version>1.3.0.M1</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
