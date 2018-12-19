@@ -72,6 +72,20 @@ public abstract class GroovyFilterProcessorApplicationIntegrationTests {
 		}
 	}
 
+	@TestPropertySource(properties = {
+			"groovy-filter.script=script-with-grab.groovy"})
+	public static class UsingScriptWithGrabIntegrationTests extends GroovyFilterProcessorApplicationIntegrationTests {
+
+		@Test
+		public void test() throws InterruptedException {
+			channels.input().send(new GenericMessage<Object>(new Float(0.2)));
+			channels.input().send(new GenericMessage<Object>(new Float(0.3)));
+			channels.input().send(new GenericMessage<Object>(new Float(0.4)));
+			assertThat(collector.forChannel(channels.output()), receivesPayloadThat(is("0.2")));
+			assertThat(collector.forChannel(channels.output()).poll(10, MILLISECONDS), is(nullValue(Message.class)));
+		}
+	}
+
 	// Avoid @SpringBootApplication with its @ComponentScan
 	@SpringBootConfiguration
 	@EnableAutoConfiguration
