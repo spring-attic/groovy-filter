@@ -1,5 +1,5 @@
 /*
- * Copyright 2015-2016 the original author or authors.
+ * Copyright 2015-2019 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -70,20 +70,22 @@ public abstract class GroovyFilterProcessorApplicationIntegrationTests {
 			assertThat(collector.forChannel(channels.output()), receivesPayloadThat(is("hello world")));
 			assertThat(collector.forChannel(channels.output()).poll(10, MILLISECONDS), is(nullValue(Message.class)));
 		}
+
 	}
 
 	@TestPropertySource(properties = {
-			"groovy-filter.script=script-with-grab.groovy"})
+			"groovy-filter.script=script-with-grab.groovy" })
 	public static class UsingScriptWithGrabIntegrationTests extends GroovyFilterProcessorApplicationIntegrationTests {
 
 		@Test
 		public void test() throws InterruptedException {
-			channels.input().send(new GenericMessage<Object>(new Float(0.2)));
-			channels.input().send(new GenericMessage<Object>(new Float(0.3)));
-			channels.input().send(new GenericMessage<Object>(new Float(0.4)));
+			channels.input().send(new GenericMessage<Object>(0.2f));
+			channels.input().send(new GenericMessage<Object>(0.3f));
+			channels.input().send(new GenericMessage<Object>(0.4f));
 			assertThat(collector.forChannel(channels.output()), receivesPayloadThat(is("0.2")));
 			assertThat(collector.forChannel(channels.output()).poll(10, MILLISECONDS), is(nullValue(Message.class)));
 		}
+
 	}
 
 	// Avoid @SpringBootApplication with its @ComponentScan
